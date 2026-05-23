@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bài tập 04 | AEO, AIEO và Website Demo Ứng Dụng</title>
+	<meta name="description" content="Bài tập 04: Tìm hiểu AEO, AIEO, kỹ thuật triển khai thực tế và website demo đã áp dụng đầy đủ schema, FAQ, HowTo, semantic HTML để tối ưu cho công cụ tìm kiếm và AI.">
+	<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+	<link rel="canonical" href="https://example.com/bai-tap-aeo-aieo">
+
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="Bài tập 04: AEO, AIEO và kỹ thuật triển khai">
+	<meta property="og:description" content="Trang web demo một bài tập hoàn chỉnh: giải thích AEO/AIEO, checklist kỹ thuật và hướng dẫn host.">
+	<meta property="og:url" content="https://example.com/bai-tap-aeo-aieo">
+	<meta property="og:site_name" content="AEO Lab">
+	<meta property="og:locale" content="vi_VN">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Bài tập 04: AEO, AIEO và kỹ thuật triển khai">
+	<meta name="twitter:description" content="Demo website tối ưu cho trả lời trực tiếp và AI Overview.">
+
+	<style>
+		:root {
+			--bg: #f5f3ee;
+			--paper: #fffdfa;
+			--ink: #1d2a39;
+			--muted: #5b6b7d;
+			--accent: #0b7f6a;
+			--accent-soft: #ccefe8;
+			--line: #d7e0e7;
+			--warning: #8a5b00;
+			--shadow: 0 10px 30px rgba(18, 35, 54, 0.09);
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Segoe UI", "SF Pro Text", "Helvetica Neue", sans-serif;
+			background:
+				radial-gradient(circle at 85% -10%, #d3efe8 0%, transparent 35%),
+				radial-gradient(circle at -5% 10%, #f9d9c9 0%, transparent 30%),
+				var(--bg);
+			color: var(--ink);
+			line-height: 1.65;
+		}
+
+		.container {
+			width: min(980px, 92vw);
+			margin: 0 auto;
+			padding: 24px 0 56px;
+		}
+
+		.card {
+			background: var(--paper);
+			border: 1px solid var(--line);
+			border-radius: 18px;
+			box-shadow: var(--shadow);
+			padding: 24px;
+			margin-top: 18px;
+		}
+
+		.hero {
+			position: relative;
+			overflow: hidden;
+			animation: fadeUp 650ms ease both;
+		}
+
+		.hero::after {
+			content: "";
+			position: absolute;
+			inset: auto -40px -60px auto;
+			width: 210px;
+			height: 210px;
+			border-radius: 50%;
+			background: linear-gradient(130deg, #a1e8dc, #f3ba9c);
+			opacity: 0.35;
+			pointer-events: none;
+		}
+
+		h1, h2, h3 {
+			line-height: 1.25;
+			margin: 0 0 10px;
+		}
+
+		h1 {
+			font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+			letter-spacing: 0.3px;
+		}
+
+		h2 {
+			font-size: clamp(1.3rem, 2.8vw, 1.7rem);
+			margin-top: 8px;
+		}
+
+		p {
+			margin: 0 0 10px;
+			color: var(--ink);
+		}
+
+		.muted {
+			color: var(--muted);
+			font-size: 0.95rem;
+		}
+
+		.tag {
+			display: inline-block;
+			padding: 6px 12px;
+			border-radius: 999px;
+			background: var(--accent-soft);
+			color: #045948;
+			font-weight: 700;
+			font-size: 0.85rem;
+			letter-spacing: 0.3px;
+			margin-bottom: 10px;
+		}
+
+		.quick-answer {
+			border-left: 5px solid var(--accent);
+			background: #f2fbf8;
+			padding: 14px;
+			border-radius: 10px;
+			margin-top: 14px;
+		}
+
+		nav ul {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+			gap: 8px;
+			list-style: none;
+			padding: 0;
+			margin: 10px 0 0;
+		}
+
+		nav a {
+			display: block;
+			text-decoration: none;
+			background: #f7fbfd;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			padding: 10px;
+			color: #1e3e54;
+			font-weight: 600;
+			transition: transform 180ms ease, background-color 180ms ease;
+		}
+
+		nav a:hover,
+		nav a:focus-visible {
+			transform: translateY(-2px);
+			background: #e9f8f4;
+			outline: none;
+		}
+
+		.grid-2 {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+		}
+
+		.item {
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			padding: 14px;
+			background: #fff;
+		}
+
+		.item h3 {
+			font-size: 1rem;
+			margin-bottom: 6px;
+		}
+
+		.table-wrap {
+			overflow-x: auto;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			background: #fff;
+			border-radius: 10px;
+			overflow: hidden;
+		}
+
+		th,
+		td {
+			border: 1px solid var(--line);
+			padding: 10px;
+			text-align: left;
+			vertical-align: top;
+		}
+
+		th {
+			background: #f3f8fa;
+		}
+
+		details {
+			border: 1px solid var(--line);
+			border-radius: 10px;
+			padding: 10px 12px;
+			background: #fff;
+			margin-bottom: 8px;
+		}
+
+		summary {
+			cursor: pointer;
+			font-weight: 700;
+			color: #1a4058;
+		}
+
+		code {
+			background: #edf4f8;
+			border: 1px solid #dce8f0;
+			padding: 1px 6px;
+			border-radius: 6px;
+			color: #17445e;
+			font-size: 0.92em;
+		}
+
+		.host-note {
+			border: 1px dashed #d9b777;
+			background: #fff9ed;
+			color: var(--warning);
+			border-radius: 10px;
+			padding: 12px;
+			font-size: 0.95rem;
+		}
+
+		footer {
+			text-align: center;
+			color: var(--muted);
+			margin-top: 20px;
+			font-size: 0.9rem;
+		}
+
+		@keyframes fadeUp {
+			from {
+				opacity: 0;
+				transform: translateY(8px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@media (max-width: 720px) {
+			.card {
+				padding: 18px;
+			}
+
+			.grid-2 {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"name": "AEO Lab - Bài tập 04",
+		"url": "https://example.com/bai-tap-aeo-aieo",
+		"inLanguage": "vi-VN",
+		"publisher": {
+			"@type": "Organization",
+			"name": "AEO Lab"
+		}
+	}
+	</script>
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		"mainEntity": [
+			{
+				"@type": "Question",
+				"name": "AEO là gì?",
+				"acceptedAnswer": {
+					"@type": "Answer",
+					"text": "AEO (Answer Engine Optimization) là tối ưu nội dung để công cụ tìm kiếm trả lời trực tiếp câu hỏi của người dùng bằng đoạn ngắn rõ ràng, thường xuất hiện ở featured snippet hoặc câu trả lời nhanh."
+				}
+			},
+			{
+				"@type": "Question",
+				"name": "AIEO là gì?",
+				"acceptedAnswer": {
+					"@type": "Answer",
+					"text": "AIEO (AI Engine Optimization) là tối ưu nội dung cho các hệ thống AI như AI Overview, chatbot tìm kiếm và trợ lý ảo, nhằm tăng khả năng nội dung được trích dẫn, tổng hợp và khuyến nghị."
+				}
+			},
+			{
+				"@type": "Question",
+				"name": "Triển khai nhanh AEO/AIEO bắt đầu từ đâu?",
+				"acceptedAnswer": {
+					"@type": "Answer",
+					"text": "Bắt đầu từ 3 bước: viết câu trả lời ngắn trực diện cho truy vấn chính, tổ chức trang bằng heading semantic rõ ràng, và thêm dữ liệu có cấu trúc như FAQPage hoặc HowTo."
+				}
+			}
+		]
+	}
+	</script>
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "HowTo",
+		"name": "Quy trình triển khai AEO/AIEO cho website nhỏ",
+		"inLanguage": "vi-VN",
+		"step": [
+			{
+				"@type": "HowToStep",
+				"name": "Xác định truy vấn chính",
+				"text": "Chọn câu hỏi người dùng thường tìm và viết câu trả lời ngắn 40-60 từ đặt ở đầu bài."
+			},
+			{
+				"@type": "HowToStep",
+				"name": "Tổ chức nội dung semantic",
+				"text": "Dùng H1-H2-H3, danh sách, bảng so sánh và phần FAQ để AI dễ hiểu ngữ nghĩa."
+			},
+			{
+				"@type": "HowToStep",
+				"name": "Gắn schema",
+				"text": "Thêm JSON-LD gồm WebSite, FAQPage, HowTo để tăng khả năng xuất hiện trong câu trả lời tổng hợp."
+			},
+			{
+				"@type": "HowToStep",
+				"name": "Đo lường và cập nhật",
+				"text": "Theo dõi Search Console, CTR và thứ hạng truy vấn dạng câu hỏi để cải tiến nội dung định kỳ."
+			}
+		]
+	}
+	</script>
+</head>
+<body>
+	<main class="container">
+		<article class="card hero" itemscope itemtype="https://schema.org/Article">
+			<span class="tag">BÀI TẬP 04</span>
+			<h1 itemprop="headline">Tìm hiểu AEO, AIEO và triển khai trên website thực tế</h1>
+			<p class="muted">Môn học: Marketing số / SEO hiện đại • Ngày cập nhật: <time datetime="2026-05-23" itemprop="dateModified">23/05/2026</time></p>
+
+			<section class="quick-answer" aria-label="Câu trả lời nhanh">
+				<h2 id="tra-loi-nhanh">Câu trả lời nhanh</h2>
+				<p><strong>AEO</strong> giúp nội dung được trả lời trực tiếp trên công cụ tìm kiếm, còn <strong>AIEO</strong> giúp nội dung dễ được AI tổng hợp và trích dẫn. Muốn triển khai hiệu quả, cần viết câu trả lời ngắn rõ ý, tổ chức semantic HTML, thêm schema (FAQ/HowTo), tối ưu tốc độ và theo dõi dữ liệu để cập nhật liên tục.</p>
+			</section>
+
+			<nav aria-label="Mục lục nội dung">
+				<ul>
+					<li><a href="#khai-niem">1) Khái niệm</a></li>
+					<li><a href="#so-sanh">2) So sánh AEO và AIEO</a></li>
+					<li><a href="#ky-thuat">3) Kỹ thuật triển khai</a></li>
+					<li><a href="#ap-dung">4) Áp dụng trên website này</a></li>
+					<li><a href="#hosting">5) Hướng dẫn hosting</a></li>
+					<li><a href="#faq">6) FAQ</a></li>
+				</ul>
+			</nav>
+		</article>
+
+		<section id="khai-niem" class="card" aria-labelledby="khai-niem-title">
+			<h2 id="khai-niem-title">1. Khái niệm AEO và AIEO</h2>
+			<div class="grid-2">
+				<article class="item">
+					<h3>AEO (Answer Engine Optimization)</h3>
+					<p>Tối ưu để công cụ tìm kiếm lấy đúng câu trả lời ngắn, chính xác, có ngữ cảnh rõ ràng. Mục tiêu là chiếm vị trí trả lời nhanh và tăng độ tin cậy nội dung.</p>
+				</article>
+				<article class="item">
+					<h3>AIEO (AI Engine Optimization)</h3>
+					<p>Tối ưu để hệ thống AI hiểu, tổng hợp và trích dẫn nội dung của bạn trong câu trả lời dạng hội thoại hoặc AI Overview.</p>
+				</article>
+			</div>
+		</section>
+
+		<section id="so-sanh" class="card" aria-labelledby="so-sanh-title">
+			<h2 id="so-sanh-title">2. So sánh AEO và AIEO</h2>
+			<div class="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Tiêu chí</th>
+							<th>AEO</th>
+							<th>AIEO</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Mục tiêu</td>
+							<td>Trả lời trực tiếp truy vấn</td>
+							<td>Được AI tổng hợp và trích dẫn</td>
+						</tr>
+						<tr>
+							<td>Định dạng nội dung</td>
+							<td>Đoạn ngắn, FAQ, danh sách</td>
+							<td>Bài sâu hơn, có ngữ cảnh và thực thể rõ</td>
+						</tr>
+						<tr>
+							<td>Kỹ thuật ưu tiên</td>
+							<td>Featured snippet, FAQ schema</td>
+							<td>Entity SEO, cấu trúc tri thức, dữ liệu đáng tin</td>
+						</tr>
+						<tr>
+							<td>Đo lường</td>
+							<td>CTR truy vấn câu hỏi, vị trí snippet</td>
+							<td>Tần suất xuất hiện trong AI Overview/chat AI</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section id="ky-thuat" class="card" aria-labelledby="ky-thuat-title">
+			<h2 id="ky-thuat-title">3. Kỹ thuật triển khai chính</h2>
+			<div class="grid-2">
+				<article class="item">
+					<h3>1) Trả lời trực diện</h3>
+					<p>Đặt câu trả lời ngắn (40-60 từ) ngay đầu trang cho truy vấn mục tiêu.</p>
+				</article>
+				<article class="item">
+					<h3>2) Semantic HTML</h3>
+					<p>Dùng <code>main</code>, <code>article</code>, <code>section</code>, heading chuẩn để hệ thống hiểu ý chính.</p>
+				</article>
+				<article class="item">
+					<h3>3) Structured Data</h3>
+					<p>Thêm JSON-LD như <code>FAQPage</code>, <code>HowTo</code>, <code>WebSite</code> để tăng khả năng hiển thị nâng cao.</p>
+				</article>
+				<article class="item">
+					<h3>4) Tín hiệu tin cậy</h3>
+					<p>Nêu ngày cập nhật, tác giả/tổ chức, nội dung nhất quán và có khả năng kiểm chứng.</p>
+				</article>
+				<article class="item">
+					<h3>5) Tối ưu đọc nhanh</h3>
+					<p>Chia đoạn ngắn, dùng bảng và bullet để AI dễ trích xuất thành câu trả lời.</p>
+				</article>
+				<article class="item">
+					<h3>6) Theo dõi và lặp cải tiến</h3>
+					<p>Dùng Search Console, đo CTR và truy vấn dạng câu hỏi để cập nhật bài định kỳ.</p>
+				</article>
+			</div>
+		</section>
+
+		<section id="ap-dung" class="card" aria-labelledby="ap-dung-title">
+			<h2 id="ap-dung-title">4. Các kỹ thuật đã áp dụng trên website này</h2>
+			<ol>
+				<li>Thẻ meta đầy đủ: title, description, robots, canonical, Open Graph, Twitter Card.</li>
+				<li>Có đoạn Câu trả lời nhanh ở đầu nội dung để phục vụ AEO.</li>
+				<li>Dùng cấu trúc heading logic và semantic section rõ ràng.</li>
+				<li>Thêm schema JSON-LD gồm WebSite, FAQPage, HowTo phục vụ AIEO.</li>
+				<li>FAQ dạng câu hỏi thật của người dùng để tăng khả năng match truy vấn hội thoại.</li>
+				<li>Giao diện responsive, nhẹ, dễ đọc trên mobile và desktop.</li>
+			</ol>
+		</section>
+
+		<section id="hosting" class="card" aria-labelledby="hosting-title">
+			<h2 id="hosting-title">5. Hướng dẫn hosting nhanh (khuyến nghị: GitHub Pages hoặc Netlify)</h2>
+			<p>Vì website chỉ gồm file tĩnh HTML/CSS/JS, bạn có thể host miễn phí trong vài phút.</p>
+			<h3>Phương án A: GitHub Pages</h3>
+			<ol>
+				<li>Tạo repository mới và đẩy file <code>index.html</code> lên nhánh <code>main</code>.</li>
+				<li>Vào Settings → Pages → Build from branch.</li>
+				<li>Chọn branch <code>main</code> và thư mục root rồi Save.</li>
+				<li>Sau 1-2 phút, website có URL dạng <code>https://ten-user.github.io/ten-repo</code>.</li>
+			</ol>
+			<h3>Phương án B: Netlify Drag & Drop</h3>
+			<ol>
+				<li>Vào Netlify, chọn Deploy manually.</li>
+				<li>Kéo thả thư mục chứa <code>index.html</code>.</li>
+				<li>Nhận URL public ngay, có thể gắn domain riêng sau.</li>
+			</ol>
+		</section>
+
+		<section id="faq" class="card" aria-labelledby="faq-title">
+			<h2 id="faq-title">6. FAQ cho AEO/AIEO</h2>
+			<details>
+				<summary>AEO có thay thế SEO truyền thống không?</summary>
+				<p>Không. AEO là lớp tối ưu bổ sung. SEO nền tảng kỹ thuật, nội dung và liên kết vẫn rất quan trọng.</p>
+			</details>
+			<details>
+				<summary>AIEO có cần schema không?</summary>
+				<p>Không bắt buộc 100%, nhưng schema giúp AI hiểu ngữ cảnh tốt hơn và tăng khả năng được trích dẫn đúng.</p>
+			</details>
+			<details>
+				<summary>Website nhỏ có nên làm AEO/AIEO không?</summary>
+				<p>Có. Website nhỏ càng nên bắt đầu sớm với truy vấn ngách và FAQ rõ ràng để tăng cơ hội xuất hiện.</p>
+			</details>
+		</section>
+
+		<footer>
+			<p>Hoàn thành: Bài tập 04 - Tìm hiểu AEO, AIEO và website ứng dụng thực hành.</p>
+		</footer>
+	</main>
+</body>
+</html>
